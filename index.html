@@ -1,31 +1,32 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta name="author" content="Mahmoud Hegazy"/>
+    <meta name="description" content="Website showcasing Events" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title> Events Listing</title>
     <link rel="stylesheet" href="src/style.css" />
     <script type="module" src="/src/main.ts"></script>
   </head>
-  <body>
-    <div id="controls" class="">
-    <button id="visitor" class="">Visitor</button>
-    <button id="organizer" class="">Organizer</button>
+  <body class="p-4">
+    <div id="controls" class="text-center text-2xl">
+      <button id="visitor" class="border-2 border-black border-solid w-30 hover:shadow-2xl hover:bg-gray-300 ">Visitor</button>
+      <button id="organizer" class="border-2 border-black border-solid w-30 hover:shadow-2xl hover:bg-gray-300">Organizer</button>
 
-     <fieldset id="visitorControls">
-      <legend>Visitor Controls</legend>
-      <label for="category">Category</label>
-      <select name="category" id="category">
-        <option value="music">Music</option>
-        <option value="tech">Tech</option>
-        <option value="sport">Sport</option>
-      </select>
-    </fieldset>
+      <fieldset id="visitorControls" class="text-xl">
+        <legend>Visitor Controls</legend>
+        <label for="category">Category</label>
+        <select name="category" id="category">
+          <option value="music">Music</option>
+          <option value="tech">Tech</option>
+          <option value="sport">Sport</option>
+        </select>
+      </fieldset>
 
     </div>
 
-    <div id="listing" class="">
-      
+    <div id="listing" class="flex gap-5">
     </div>
 
   </body>
