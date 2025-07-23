@@ -349,6 +349,8 @@ const login : HTMLButtonElement = document.getElementById("loginSubmit") as HTML
 login.addEventListener('click',(action) => {action.preventDefault();
     loginPage();})
 
+const base = import.meta.env.BASE_URL; // "/event-listing/"
+
 
 function loginPage(){
     const form : HTMLFormElement = document.getElementById("login") as HTMLFormElement;
@@ -357,10 +359,10 @@ function loginPage(){
 
     if(user === "Visitor")
     {
-        window.location.href = "../visitor.html"
+        window.location.href = `${base}visitor.html`
     }
     else if (user === "Organizer") {
-        window.location.href = "../organizer.html"
+        window.location.href = `${base}organizer.html`
     }
 }
 
