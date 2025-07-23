@@ -1,4 +1,3 @@
-/*
 interface even {
     title : string;
     date : Date;
@@ -16,9 +15,30 @@ const music1 : even = {
     image : "music.jpg"
 }
 
-const localEvents : even[] =  [music1];
 
-//displayEvents(localEvents)
+
+const localEvents : even[] =  [music1];
+const storedArray : string[] = [];
+
+// storedArray.push(JSON.stringify(music1))
+// localStorage.setItem("eventsArray",storedArray.toString())
+
+function fetchEvents(){
+    console.log(localStorage.getItem("eventsArray"))
+    parseStringToEven(localStorage.getItem("eventsArray") as string)
+}
+
+function pushEvents(){
+    console.log("PUSHING EVENTS")
+    localStorage.removeItem("eventsArray");
+    parseEvenToString();
+    console.log("EVENTS PUSHED : " + storedArray)
+    localStorage.setItem("eventsArray",storedArray.toString())
+}
+
+fetchEvents();
+
+displayOrganzizerEvents()
 
 function findEvent (container : HTMLDivElement) : even
 {
@@ -65,11 +85,12 @@ function displayModal(a : even)
     modal.appendChild(subContainer);
     modal.appendChild(description)
 
-    modal.addEventListener('click', closeModal )
+    modal.addEventListener('click', () => {closeModal(modal)} )
 
-    modal.classList = "gap-y-15 bg-gray-400 grid grid-cols-2 grid-rows-2 border-4 border-black shadow-black-200 shadow-2xs w-3xl h-96 p-3 text-lg hover:shadow-2xl rounded-2xl relative top-20 left-90"
+    modal.classList = "dark:shadow-white gap-y-15 bg-gray-400 grid grid-cols-2 grid-rows-2 border-4 border-black shadow-black-200 shadow-2xs w-3xl h-96 p-3 text-lg hover:shadow-2xl rounded-2xl absolute top-23 left-90 z-2"
     const container : HTMLDivElement= document.getElementById("listing") as HTMLDivElement;
-    container.appendChild(modal);
+    container.classList.toggle("pointer-events-none")
+    document.body.appendChild(modal);
 
 }
 
@@ -89,7 +110,7 @@ function displayOrganzizerEvents(){
         const deleteButton : HTMLButtonElement = document.createElement("button");
         const editButton : HTMLButtonElement = document.createElement("button");
 
-        image.src = `src/${ev.imag}`
+        image.src = `src/${ev.image}`
         image.classList = "w-2xs h-50";
 
         cardTitle.innerHTML = ev.title; 
@@ -97,9 +118,11 @@ function displayOrganzizerEvents(){
         cardCategory.innerHTML = ev.category;
 
         deleteButton.classList = "border-2 rounded-xl p-2 bg-amber-500 basis-full"
+        deleteButton.id = ev.title;
         deleteButton.innerHTML = "Delete";
         deleteButton.addEventListener('click',(action) => {
-        deleteEvent(action.currentTarget as HTMLDivElement);
+        action.stopPropagation();
+        deleteEvent(deleteButton.id, card );
         });
 
         editButton.id = ev.title;
@@ -118,10 +141,10 @@ function displayOrganzizerEvents(){
         card.appendChild(btnContainer)
 
 
-        card.classList = "border-4 border-black shadow-black-200 shadow-2xs w-2xs h-96 p-3 text-lg hover:shadow-2xl rounded-2xl";
+        card.classList = "dark:border-[#00B900] dark:shadow-white dark:bg-gray-800 border-4 border-black shadow-black-200 shadow-2xs w-2xs h-96 p-3 text-lg hover:shadow-2xl rounded-2xl";
 
-         editButton.addEventListener('click',() => {
-            console.log("EDIT BUTTON PRESSED")
+         editButton.addEventListener('click',(action) => {
+        action.stopPropagation();
         let a : even = findEventToBeEdited(editButton.id,card);
         displayEditForm(a);
         });
@@ -134,49 +157,24 @@ function displayOrganzizerEvents(){
     }
 }
 
-function displayEvents(a : even[])
+
+function closeAddForm()
 {
-    const container : HTMLDivElement= document.getElementById("listing") as HTMLDivElement;
-    container.innerHTML = ""
-    let ev : any;
-    for( ev of a)
-    {
-        const card : HTMLDivElement = document.createElement("div");
-        const image : HTMLImageElement =  document.createElement("img");
-        const cardTitle : HTMLParagraphElement = document.createElement("p");
-        const cardDate : HTMLParagraphElement = document.createElement("p");
-        const cardCategory : HTMLParagraphElement = document.createElement("p");
-
-        image.src = `src/${ev.imag}`
-        image.classList = "w-2xs h-50";
-
-        cardTitle.innerHTML = ev.title; 
-        cardDate.innerHTML = `${ev.date.getDate()}/${ev.date.getMonth()}/${ev.date.getFullYear()}`; 
-        cardCategory.innerHTML = ev.category; 
-
-        card.appendChild(image);
-        card.appendChild(cardTitle);
-        card.appendChild(cardDate);
-        card.appendChild(cardCategory);
-
-        card.classList = "border-4 border-black shadow-black-200 shadow-2xs w-2xs h-80 p-3 text-lg hover:shadow-2xl rounded-2xl";
-        card.addEventListener('click', (action) => {
-        let a : even = findEvent(action.currentTarget as HTMLDivElement);
-        displayModal(a)})
-        container.appendChild(card);
-    }
+    const form : HTMLFormElement = document.getElementById("formAdd") as HTMLFormElement;
+    document.body.removeChild(form);
+    displayOrganzizerEvents();
 }
 
-
-function filterCategory(c : HTMLOptionElement)
+function closeEditForm()
 {
-    const filteredList : even[] =  localEvents.filter((e) => (e.category == c.value))
-    console.log(filteredList)
-    displayEvents(filteredList)
+    const form : HTMLFormElement = document.getElementById("formEdit") as HTMLFormElement;
+    document.body.removeChild(form);
+    displayOrganzizerEvents();
 }
 
-const dropDown : HTMLSelectElement = document.getElementById("category") as HTMLSelectElement;
-dropDown.addEventListener('click' , (object) => filterCategory(object.target as HTMLOptionElement))
+const add : HTMLButtonElement = document.getElementById("addEvent") as HTMLButtonElement;
+add.addEventListener('click',displayForm);
+
 function displayForm(){
     const formContainer : HTMLFormElement = document.createElement("form");
     formContainer.id = "formAdd"
@@ -214,20 +212,6 @@ function displayForm(){
     });
 }
 
-function closeAddForm()
-{
-    const form : HTMLFormElement = document.getElementById("formAdd") as HTMLFormElement;
-    document.body.removeChild(form);
-}
-
-function closeEditForm()
-{
-    const form : HTMLFormElement = document.getElementById("formEdit") as HTMLFormElement;
-    document.body.removeChild(form);
-}
-
-const add : HTMLButtonElement = document.getElementById("addEvent") as HTMLButtonElement;
-add.addEventListener('click',displayForm);
 
 
 function addEvent(){
@@ -249,7 +233,44 @@ let i : string = image.value;
 
 let e : even = { title : t, date : new Date(da), category: c, description : d, image: i}
 localEvents.push(e)
+
+pushEvents();
+
 closeAddForm();
+}
+
+function parseEvenToString()
+{
+    storedArray.splice(0)
+    let ev : even
+    for(ev of localEvents)
+    {
+        let temp : string = JSON.stringify(ev)
+        storedArray.push(temp);
+    }
+}
+
+function parseStringToEven(a : string){
+    let temp = a.split('"');
+    localEvents.splice(0);
+    let e : even = {title : "" , date : new Date() , category: "", description : "", image : "" };
+    for(let x = 0 ; x < temp.length ; x++)
+    {
+        
+        switch(x%20)
+        {
+            case 3: e.title = temp[x]; break;
+            case 7: e.date = new Date(temp[x]); break;
+            case 11: e.category = temp[x]; break;
+            case 15: e.description = temp[x]; break;
+            case 19: e.image = temp[x]; break;
+        }
+        if(x%20 === 0 && x !== 0)
+        {
+            localEvents.push(e)
+            e = {title : "" , date : new Date() , category: "", description : "", image : "" };
+        }
+    }
 }
 
 function findEventToBeEdited (title : string, container : HTMLDivElement) : even
@@ -260,17 +281,13 @@ function findEventToBeEdited (title : string, container : HTMLDivElement) : even
     return a;
 }
 
-function deleteEvent (container : HTMLDivElement){
-    let start : number = container.innerHTML.search("<p>")
-    let end : number = container.innerHTML.search("</p>")
-    let title : string = container.innerHTML.substring(start+3,end)
-    console.log(start)
-    console.log(end);
-    console.log(title);
+function deleteEvent (title : string, container : HTMLDivElement){
 
     let a :even = localEvents.filter((e) => (e.title === title))[0]
     let n : number = localEvents.indexOf(a);
-    localEvents.splice(n,1)
+    localEvents.splice(n,1);
+
+    pushEvents();
 
     container.innerHTML = ""
     container.classList = ""
@@ -278,8 +295,6 @@ function deleteEvent (container : HTMLDivElement){
 
 function editEvent (a : even){
     const form : HTMLFormElement = document.getElementById("formEdit") as HTMLFormElement;
-
-console.log(form.children)
 
 let title : HTMLInputElement = form.children.item(4) as HTMLInputElement;
 let category : HTMLInputElement = form.children.item(6) as HTMLInputElement;
@@ -298,6 +313,8 @@ c ? a.category = c : a.category = a.category;
 d ? a.description = d : a.description = a.description;
 da ? a.date = new Date(da) : a.date = a.date;
 i ? a.image = i : a.image = a.image;
+
+pushEvents();
 
 closeEditForm();
 }
@@ -338,30 +355,17 @@ function displayEditForm (a : even){
     });
 }
 
-function closeModal() {
+function closeModal(modal : HTMLDivElement) {
     const container : HTMLDivElement= document.getElementById("listing") as HTMLDivElement;
     container.innerHTML = "";
+    container.classList.toggle("pointer-events-none")
+    document.body.removeChild(modal)
     displayOrganzizerEvents();
 }
-*/
-
-const login : HTMLButtonElement = document.getElementById("loginSubmit") as HTMLButtonElement;
-login.addEventListener('click',(action) => {action.preventDefault();
-    loginPage();})
 
 
-function loginPage(){
-    const form : HTMLFormElement = document.getElementById("login") as HTMLFormElement;
-    const input : HTMLInputElement = form.children[1] as HTMLInputElement;
-    const user : string = input.value;
-
-    if(user === "Visitor")
-    {
-        window.location.href = "../visitor.html"
-    }
-    else if (user === "Organizer") {
-        window.location.href = "../organizer.html"
-    }
-}
-
-
+const darkMode : HTMLButtonElement = document.getElementById("darkMode") as HTMLButtonElement;
+darkMode.addEventListener("click", () => {
+    document.body.classList.toggle("dark")
+    darkMode.innerHTML = darkMode.innerHTML === "White Mode" ? "Dark Mode" : "White Mode"
+})

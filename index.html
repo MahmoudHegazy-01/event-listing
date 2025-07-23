@@ -9,32 +9,13 @@
     <link rel="stylesheet" href="src/style.css" />
     <script type="module" src="/src/main.ts"></script>
   </head>
-  <body class="p-4">
-    <div id="controls" class="text-center text-2xl">
-      <button id="visitor" class="border-2 border-black border-solid w-30 hover:shadow-2xl hover:bg-gray-300 ">Visitor</button>
-      <button id="organizer" class="border-2 border-black border-solid w-30 hover:shadow-2xl hover:bg-gray-300">Organizer</button>
+  <body class="p-4 flex justify-center items-center">
 
-      <fieldset id="visitorControls" class="text-xl">
-        <legend>Visitor Controls</legend>
-        <label for="category">Category</label>
-        <select name="category" id="category">
-          <option value="music">Music</option>
-          <option value="tech">Tech</option>
-          <option value="sport">Sport</option>
-        </select>
-      </fieldset>
-
-
-    <fieldset id="organizerControls">
-      <legend>Organizer Controls</legend>
-      <button id="addEvent" class="border-2 bg-green-200 hover:bg-green-400 ">Add an Event</button>
-    </fieldset>
-    </div>
-
-    <div id="listing" class="flex gap-5">
-    </div>
-
-    
+    <form id="login" class="border-2  size-60 self-center fixed top-1/4 rounded-2xl p-2 gap-3 flex flex-col justify-center">
+      <label for="username" class="justify-self-start">Username : </label>
+      <input type="text" id="username" class="border-2 rounded-2xl p-2"/>
+      <button type="submit" id="loginSubmit" class="border-2 rounded-2xl p-2 w-full">Login</button>
+    </form>
 
   </body>
 </html>

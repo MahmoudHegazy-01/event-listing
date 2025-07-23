@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="author" content="Mahmoud Hegazy"/>
+    <meta name="description" content="Website showcasing Events" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Events Listing</title>
+    <link rel="stylesheet" href="src/style.css" />
+    <script type="module" src="/src/visitor.ts"></script>
+  </head>
+<body class="p-4 flex flex-col gap-2 dark:bg-[#1b1b1b] dark:text-white">
+
+  <div class="grid grid-cols-2 justify-items-end">
+    <fieldset id="visitorControls" class="text-xl text-center">
+        <label for="category">Category : </label>
+        <select name="category" id="category" class="border-1 rounded-xl p-2 hover:bg-gray-200">
+            <option value="music">Music</option>
+            <option value="tech">Tech</option>
+            <option value="sport">Sport</option>
+        </select>
+    </fieldset>
+
+    <button id="darkMode" class=" border-2 rounded-xl p-1 bg-white text-black hover:bg-black hover:text-white border-black dark:bg-black dark:text-white dark:border-white dark:hover:bg-white dark:hover:text-black  ">Dark Mode</button>
+
+  </div>
+
+    <div id="listing" class="flex gap-5">
+    </div>
+
+</body>
+</html>
