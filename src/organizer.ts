@@ -1,3 +1,7 @@
+import footballImg from "./football.jpg"
+import musicImg from "./music.jpg"
+import techImg from "./tech.webp"
+
 interface even {
     title : string;
     date : Date;
@@ -6,33 +10,31 @@ interface even {
     image : string;
 }
 
-
-const music1 : even = {
-    title : "Music 1" , 
-    date : new Date(2025,1,10,10,30) , 
-    category : "music" , 
-    description : "Music event #1" , 
-    image : "music.jpg"
-}
-
+// const music1 : even = {
+//     title : "Music 1" , 
+//     date : new Date(2025,1,10,10,30) , 
+//     category : "music" , 
+//     description : "Music event #1" , 
+//     image : "music.jpg"
+// }
 
 
-const localEvents : even[] =  [music1];
+
+const localEvents : even[] =  [];
 const storedArray : string[] = [];
 
 // storedArray.push(JSON.stringify(music1))
 // localStorage.setItem("eventsArray",storedArray.toString())
 
 function fetchEvents(){
-    console.log(localStorage.getItem("eventsArray"))
+    if(localStorage.getItem("eventsArray") !== null)
     parseStringToEven(localStorage.getItem("eventsArray") as string)
+
 }
 
 function pushEvents(){
-    console.log("PUSHING EVENTS")
     localStorage.removeItem("eventsArray");
     parseEvenToString();
-    console.log("EVENTS PUSHED : " + storedArray)
     localStorage.setItem("eventsArray",storedArray.toString())
 }
 
@@ -68,7 +70,23 @@ function displayModal(a : even)
     const cardCategory : HTMLParagraphElement = document.createElement("p");
     const description : HTMLParagraphElement = document.createElement("p");
        
-    image.src = `src/${a.image}`
+    if(a.image === "football.jpg")
+        {
+            image.src = footballImg
+        }
+        else{
+            if(a.image === "music.jpg")
+            {
+                image.src = musicImg;
+            }
+            else
+            {
+                if(a.image === "tech.webp")
+                {
+                    image.src = techImg
+                }
+            }
+        }
     image.classList = "w-2xs h-50 col-start-1 col-end-2";
 
     cardTitle.innerHTML = a.title; 
@@ -110,7 +128,24 @@ function displayOrganzizerEvents(){
         const deleteButton : HTMLButtonElement = document.createElement("button");
         const editButton : HTMLButtonElement = document.createElement("button");
 
-        image.src = `src/${ev.image}`
+        if(ev.image === "football.jpg")
+        {
+            image.src = footballImg
+        }
+        else{
+            if(ev.image === "music.jpg")
+            {
+                image.src = musicImg;
+            }
+            else
+            {
+                if(ev.image === "tech.webp")
+                {
+                    image.src = techImg
+                }
+            }
+        }
+        
         image.classList = "w-2xs h-50";
 
         cardTitle.innerHTML = ev.title; 

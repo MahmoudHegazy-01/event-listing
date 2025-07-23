@@ -1,3 +1,7 @@
+import footballImg from "./football.jpg"
+import musicImg from "./music.jpg"
+import techImg from "./tech.webp"
+
 interface even {
     title : string;
     date : Date;
@@ -7,13 +11,13 @@ interface even {
 }
 
 
-const music1 : even = {
-    title : "Music 1" , 
-    date : new Date(2025,1,10,10,30) , 
-    category : "music" , 
-    description : "Music event #1" , 
-    image : "music.jpg"
-}
+// const music1 : even = {
+//     title : "Music 1" , 
+//     date : new Date(2025,1,10,10,30) , 
+//     category : "music" , 
+//     description : "Music event #1" , 
+//     image : "music.jpg"
+// }
 
 const localEvents : even[] =  [];
 
@@ -78,7 +82,23 @@ function displayModal(a : even)
     const cardCategory : HTMLParagraphElement = document.createElement("p");
     const description : HTMLParagraphElement = document.createElement("p");
        
-    image.src = `src/${a.image}`
+     if(a.image === "football.jpg")
+        {
+            image.src = footballImg
+        }
+        else{
+            if(a.image === "music.jpg")
+            {
+                image.src = musicImg;
+            }
+            else
+            {
+                if(a.image === "tech.webp")
+                {
+                    image.src = techImg
+                }
+            }
+        }
     image.classList = "w-2xs h-50 col-start-1 col-end-2";
 
     cardTitle.innerHTML = a.title; 
@@ -116,7 +136,23 @@ function displayEvents(a : even[])
         const cardDate : HTMLParagraphElement = document.createElement("p");
         const cardCategory : HTMLParagraphElement = document.createElement("p");
 
-        image.src = `src/${ev.image}`
+         if(ev.image === "football.jpg")
+        {
+            image.src = footballImg
+        }
+        else{
+            if(ev.image === "music.jpg")
+            {
+                image.src = musicImg;
+            }
+            else
+            {
+                if(ev.image === "tech.webp")
+                {
+                    image.src = techImg
+                }
+            }
+        }
         image.classList = "w-2xs h-50";
 
         cardTitle.innerHTML = ev.title; 
