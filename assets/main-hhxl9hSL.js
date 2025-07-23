@@ -1,1 +1,0 @@
-import"./style-Cy_DZJNK.js";const e=document.getElementById("loginSubmit");e.addEventListener("click",n=>{n.preventDefault(),i()});function i(){const t=document.getElementById("login").children[1].value;t==="Visitor"?window.location.href="../visitor.html":t==="Organizer"&&(window.location.href="../organizer.html")}
