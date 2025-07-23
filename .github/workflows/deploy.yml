@@ -1,15 +1,19 @@
 name: 🚀 Deploy to GitHub Pages
-
 on:
   push:
-    branches: [ master ]      # or your default branch
+    branches: [ main ]
+permissions:
+  contents: read
+  pages: write
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -28,3 +32,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'

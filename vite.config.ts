@@ -18,6 +18,5 @@ export default defineConfig({
       },
     },
   },
-  assetsInclude: ['**/*.gltf'],
   base : "/event-listing/"
 })
